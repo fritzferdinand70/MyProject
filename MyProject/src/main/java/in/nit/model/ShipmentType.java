@@ -23,7 +23,7 @@ public class ShipmentType {
 	private String enbShip;
 	@Column(name = "sgrade")
 	private String shipGrade;
-	@Column(name="desc")
+	@Column(name="sdesc")
 	private String shipDesc;
 	public ShipmentType() {
 		super();
