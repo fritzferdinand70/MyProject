@@ -8,9 +8,6 @@
 <title>ShipmentTypeRegister</title>
 <script type="text/javascript">
 
-	function clear1() {
-		document.getElementById("myForm").reset();
-	}
 </script> 
 </head>
 <body>
@@ -40,7 +37,7 @@ Shipment Grade :
 Description :
 <form:textarea path="shipDesc"/>
 </pre>
-<input type = "submit" value = "Create Shipment" onclick="clear1()"/>
+<input type = "submit" value = "Create Shipment" onclick=""/>
 
 </form:form>
 

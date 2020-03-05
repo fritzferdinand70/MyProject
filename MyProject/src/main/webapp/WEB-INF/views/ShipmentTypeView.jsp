@@ -9,6 +9,8 @@
 </head>
 <body>
 <h3>ShipmentTypeView</h3>
+
+<pre> <a href="excel?id=${ob.shipId }">EXCEL</a>      <a href="pdf?id=${ob.shipId }">PDF</a></pre>
 <table border  ="1">
 <tr>
 <th>ID</th><td>${ob.shipId}</td>

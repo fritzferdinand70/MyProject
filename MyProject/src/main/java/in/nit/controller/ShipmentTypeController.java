@@ -1,5 +1,6 @@
 package in.nit.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import in.nit.model.ShipmentType;
 import in.nit.service.IShipmentTypeService;
+import in.nit.view.ShipmentTypeExcelView;
+import in.nit.view.ShipmentTypePdfView;
 
 @Controller
 @RequestMapping("/Shipment")
@@ -20,8 +24,8 @@ public class ShipmentTypeController {
 	@Autowired
 	IShipmentTypeService service;
 	
-	/*
-	 * 1. showRegisterPage() GET
+	/* method no-1
+	 * showRegisterPage() GET
 	 * this method shows register 
 	 * page
 	 */
@@ -34,7 +38,7 @@ public class ShipmentTypeController {
 		return "ShipmentTypeRegister";
 	}
 	
-	/*
+	/*method no-2
 	 * This method saves one record into DB
 	 * and displays the message that a record
 	 * with ID was saved
@@ -51,7 +55,7 @@ public class ShipmentTypeController {
 		return"ShipmentTypeRegister";
 	}
 	
-	/*
+	/*method no-3
 	 * This method shows all data in the table
 	 * showAll() GET
  	 */
@@ -63,7 +67,7 @@ public class ShipmentTypeController {
 		return "ShipmentTypeData";
 	}
 	
-	/*
+	/*method no-4
 	 * This method delete row based on id
 	 * It uses concept of url rewriting
 	 * the request param will be sid
@@ -84,7 +88,7 @@ public class ShipmentTypeController {
 		return "ShipmentTypeData";
 	}
 	
-	/*
+	/*method no-5
 	 * This method shows an edit page
 	 * with the details of the row filled
 	 * to be modified
@@ -100,7 +104,7 @@ public class ShipmentTypeController {
 		return "ShipmentTypeEdit";
 	}
 	
-	/**
+	/**  method no-6
 	 * This method submits the modified records
 	 * of a row and modifies the data In DB
 	 * using id
@@ -120,7 +124,7 @@ public class ShipmentTypeController {
 		return "ShipmentTypeData";	
 	}
 	
-	/*
+	/* method no-7
 	 * this method gives a view of a single row 
 	 * based on id
 	 * showOneShipment() GET
@@ -134,5 +138,56 @@ public class ShipmentTypeController {
 		ShipmentType st = service.getOneShipmentType(sid);
 		model.addAttribute("ob", st);
 		return "ShipmentTypeView";
+	}
+	
+	/*method no-8
+	 * this method fetches all rows from DB
+	 * and returns a ModelAndView Object
+	 * which contains data ie model
+	 * and an implementation of View
+	 * Now View presents the model as specifed
+	 */
+	@RequestMapping("/excel")
+	public ModelAndView showExcel(
+			@RequestParam(value = "id",required=false) Integer id
+			)
+	{
+		ModelAndView m = new ModelAndView();
+		m.setView(new ShipmentTypeExcelView());
+		if(id==null) {
+		//fetching data from db
+		List<ShipmentType> list = service.getAllShipmentTypes();
+		m.addObject("list", list);
+		}else {
+			ShipmentType st = service.getOneShipmentType(id);
+			m.addObject("list", Arrays.asList(st));
+					
+		}
+		
+		return m;
+	}
+	
+	/*
+	 * method--9
+	 * this method fetches data from db and return model and view
+	 * and gives pdf to download
+	 * 
+	 */
+	@RequestMapping("/pdf")
+	public ModelAndView showPdf(
+			@RequestParam(value="id",required = false) Integer id
+			) {
+		ModelAndView m = new ModelAndView();
+		m.setView(new ShipmentTypePdfView());
+		
+		if(id==null) {
+			List<ShipmentType> list = service.getAllShipmentTypes();
+			m.addObject("list", list);
+		}
+		else {
+			ShipmentType st = service.getOneShipmentType(id);
+			m.addObject("list", Arrays.asList(st));
+		}
+		return m;
 	}
 }

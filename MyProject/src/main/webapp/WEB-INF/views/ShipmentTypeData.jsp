@@ -9,7 +9,9 @@
 <title>ShipmentTypeData</title>
 </head>
 <body>
+<pre>
 <h3>Welcome to Shipment Type Data</h3>
+<a href = "excel"> EXCEL EXPORT</a>       <a href="pdf">PDF EXPORT</a>
 <c:choose>
 <c:when test="${!empty list }">
 <table border = "1">
@@ -46,5 +48,6 @@
 </c:choose>
 
 ${message}
+</pre>
 </body>
 </html>
