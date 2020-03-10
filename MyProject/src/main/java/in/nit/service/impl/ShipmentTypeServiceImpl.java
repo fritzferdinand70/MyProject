@@ -14,7 +14,7 @@ import in.nit.service.IShipmentTypeService;
 public class ShipmentTypeServiceImpl implements IShipmentTypeService {
 
 	@Autowired
-	IShipmentTypeDao dao;
+	private IShipmentTypeDao dao;
 	
 	@Transactional
 	@Override
@@ -40,6 +40,11 @@ public class ShipmentTypeServiceImpl implements IShipmentTypeService {
 	@Override
 	public List<ShipmentType> getAllShipmentTypes() {
 		return dao.getAllShipmentTypes();
+	}
+	@Transactional(readOnly = true)
+	@Override
+	public List<Object[]> getShipmentModeCount() {
+		return dao.getShipmentModeCount();
 	}
 
 }

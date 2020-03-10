@@ -13,7 +13,7 @@ import in.nit.model.ShipmentType;
 public class ShipmentTypeDaoImpl implements IShipmentTypeDao {
 	
 	@Autowired
-	HibernateTemplate ht;
+	private HibernateTemplate ht;
 
 	@Override
 	public Integer saveShipmentType(ShipmentType ob) {
@@ -39,6 +39,13 @@ public class ShipmentTypeDaoImpl implements IShipmentTypeDao {
 	@Override
 	public void updateShipmentType(ShipmentType ob) {
 		ht.update(ob);
+	}
+	
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	@Override
+	public List<Object[]> getShipmentModeCount() {
+		String hql = "Select shipMode,count(shipMode) from in.nit.model.ShipmentType group by shipMode";
+		return (List<Object[]>)ht.find(hql);
 	}
 
 }

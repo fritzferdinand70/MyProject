@@ -3,6 +3,8 @@ package in.nit.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import in.nit.model.ShipmentType;
 import in.nit.service.IShipmentTypeService;
+import in.nit.util.ShipmentTypeUtil;
 import in.nit.view.ShipmentTypeExcelView;
 import in.nit.view.ShipmentTypePdfView;
 
 @Controller
-@RequestMapping("/Shipment")
+@RequestMapping("/shipment")
 public class ShipmentTypeController {
 
 	@Autowired
-	IShipmentTypeService service;
+	private IShipmentTypeService service;
+	
+	@Autowired
+	private ServletContext context;
+	@Autowired
+	private ShipmentTypeUtil util;
 	
 	/* method no-1
 	 * showRegisterPage() GET
@@ -189,5 +197,22 @@ public class ShipmentTypeController {
 			m.addObject("list", Arrays.asList(st));
 		}
 		return m;
+	}
+	
+	/*
+	 * method 10
+	 * this method gathers List<Object[]> 
+	 * in key value pair of (ShipmentMode,count)
+	 * and converts it appropriate images 
+	 * using util class and returns chartsview.jsp
+	 * page
+	 */
+	@RequestMapping("/charts")
+	public String showCharts() {
+		List<Object[]> list = service.getShipmentModeCount();
+		String path = context.getRealPath("/");
+		util.generatePie(path, list);
+		util.generateBar(path, list);
+		return "ShipmentTypeCharts";
 	}
 }
