@@ -59,7 +59,8 @@ public class ShipmentTypeController {
 		Integer id = service.saveShipmentType(shipmentType);
 		String message = "Shipment Type with id : "+id+" saved";
 		model.addAttribute("message", message);
-		model.addAttribute("st",shipmentType);
+		//resetting form backing object
+		model.addAttribute("st",new ShipmentType());
 		return"ShipmentTypeRegister";
 	}
 	
@@ -118,7 +119,7 @@ public class ShipmentTypeController {
 	 * using id
 	 * updateShipmentType() POST
 	 */
-	@RequestMapping("/update")
+	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public String updateShipmentType(
 			@ModelAttribute ShipmentType shipmentType,
 			Model model)

@@ -12,6 +12,10 @@ import javax.persistence.Table;
 @Table(name="doctab")
 public class Document {
 
+	public Document() {
+		super();
+	}
+
 	@Id
 	@Column(name="fid")
 	private Integer fileId;
