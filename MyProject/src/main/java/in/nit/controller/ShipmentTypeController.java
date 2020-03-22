@@ -41,8 +41,8 @@ public class ShipmentTypeController {
 	public String showRegisterPage(
 			@ModelAttribute ShipmentType shipmentType,
 			Model model
-			) {
-		model.addAttribute("st",shipmentType);
+			)
+	{
 		return "ShipmentTypeRegister";
 	}
 	
@@ -56,12 +56,12 @@ public class ShipmentTypeController {
 	public String saveShipmentType(
 			@ModelAttribute ShipmentType shipmentType,
 			Model model) {
-		Integer id = service.saveShipmentType(shipmentType);
-		String message = "Shipment Type with id : "+id+" saved";
+		Integer shipId = service.saveShipmentType(shipmentType);
+		String message = "Shipment Type with shipId : "+shipId+" saved";
 		model.addAttribute("message", message);
 		//resetting form backing object
-		model.addAttribute("st",new ShipmentType());
-		return"ShipmentTypeRegister";
+		model.addAttribute("shipmentType",new ShipmentType());
+		return "ShipmentTypeRegister";
 	}
 	
 	/*method no-3
@@ -84,11 +84,11 @@ public class ShipmentTypeController {
 	 */
 	@RequestMapping("/delete")
 	public String deleteShipmentType(
-			@RequestParam Integer sid,
+			@RequestParam("sid")Integer shipId,
 			Model model)
 	{
-		service.deleteShipmentType(sid);
-		String message = "ShipmentType with id : " + sid +" deleted";
+		service.deleteShipmentType(shipId);
+		String message = "ShipmentType with shipId : " + shipId +" deleted";
 		model.addAttribute("message", message);
 		
 		//show remaining data
@@ -105,10 +105,10 @@ public class ShipmentTypeController {
 	 */
 	@RequestMapping("/edit")
 	public String showEditPage(
-			@RequestParam Integer sid,
+			@RequestParam("sid") Integer shipId,
 			Model model)
 	{
-		ShipmentType st = service.getOneShipmentType(sid);
+		ShipmentType st = service.getOneShipmentType(shipId);
 		model.addAttribute("shipmentType", st);
 		return "ShipmentTypeEdit";
 	}
@@ -125,7 +125,7 @@ public class ShipmentTypeController {
 			Model model)
 	{
 		service.updateShipmentType(shipmentType);
-		String message = "ShipmentType with id : "+shipmentType.getShipId()+ " updated";
+		String message = "ShipmentType with shipId : "+shipmentType.getShipId()+ " updated";
 		model.addAttribute("message", message);
 		//displaying updated set of records
 		List<ShipmentType> list = service.getAllShipmentTypes();
@@ -141,10 +141,10 @@ public class ShipmentTypeController {
 	
 	@RequestMapping("/view")
 	public String showOneShipment(
-			@RequestParam Integer sid,
+			@RequestParam("sid") Integer shipId,
 			Model model) 
 	{
-		ShipmentType st = service.getOneShipmentType(sid);
+		ShipmentType st = service.getOneShipmentType(shipId);
 		model.addAttribute("ob", st);
 		return "ShipmentTypeView";
 	}

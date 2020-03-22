@@ -1,5 +1,6 @@
 package in.nit.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import in.nit.model.OrderMethod;
 import in.nit.service.IOrderMethodService;
+import in.nit.view.OrderMethodExcelView;
+import in.nit.view.OrderMethodPdfView;
 
 @RequestMapping("/om")
 @Controller
@@ -87,5 +91,35 @@ public class OrderMethodController {
 		model.addAttribute("message", "OrderMethod with orderId : "+orderId+" is deleted");
 		model.addAttribute("list", service.getAllOrderMethods());
 		return "OrderMethodData";
+	}
+	
+	@RequestMapping("/excel")
+	public ModelAndView showExcel(
+			@RequestParam(value="oid" ,required = false) Integer orderId
+			) {
+		ModelAndView m = new ModelAndView(new OrderMethodExcelView());
+		if(orderId==null) {
+			List<OrderMethod> list = service.getAllOrderMethods();
+			m.addObject("list", list);
+		}else {
+			OrderMethod om = service.getOneOrderMethod(orderId);
+			m.addObject("list", Arrays.asList(om));
+		}
+		return m;
+	}
+	
+	@RequestMapping("/pdf")
+	public ModelAndView showPdf(
+			@RequestParam(value="oid",required = false) Integer orderId
+			) {
+		ModelAndView m = new ModelAndView(new OrderMethodPdfView());
+		if(orderId==null) {
+			List<OrderMethod> list = service.getAllOrderMethods();
+			m.addObject("list", list);
+		}else {
+			OrderMethod om = service.getOneOrderMethod(orderId);
+			m.addObject("list", Arrays.asList(om));
+		}
+		return m;
 	}
 }

@@ -7,6 +7,7 @@
 <title>OrderMethod View</title>
 </head>
 <body>
+<pre><a href="excel?oid=${ om.orderId}">EXCEL</a>       <a href = "pdf?oid=${om.orderId }">PDF</a></pre>
 <table border="1">
 <tr>
 <th>ID</th>

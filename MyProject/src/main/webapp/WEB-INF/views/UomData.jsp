@@ -10,7 +10,7 @@
 <body>
 <h3>Welcome to Uom Data Page</h3>
 <pre>
-
+<a href="excel">EXCEL</a>			<a href="pdf">PDF</a>
 <c:choose>
 <c:when test="${!empty list }">
 <table border="1">

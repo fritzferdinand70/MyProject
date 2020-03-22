@@ -8,6 +8,7 @@
 </head>
 <body>
 <h3>Welcome to Uom View</h3>
+<pre><a href = "excel?uid=${ob.uomId }">EXCELVIEW</a>         <a href="pdf?uid=${ob.uomId }">PDFVIEW</a> </pre>
 <table border="2">
 <tr>
 <th>UOMID</th>

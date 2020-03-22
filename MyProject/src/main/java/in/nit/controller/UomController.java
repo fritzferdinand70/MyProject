@@ -1,5 +1,6 @@
 package in.nit.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import in.nit.model.Uom;
 import in.nit.service.IUomService;
+import in.nit.view.UomExcelView;
+import in.nit.view.UomPdfView;
 
 @RequestMapping("/uom")
 @Controller
@@ -92,4 +96,34 @@ public class UomController {
 		return "UomData";
 	}
 	
+	@RequestMapping("/excel")
+	public ModelAndView showExcel(
+			@RequestParam(value="uid",required=false) Integer uomId)
+	{
+		ModelAndView m = new ModelAndView(new UomExcelView());
+		if(uomId == null) {
+			List<Uom> list = service.getAllUoms();
+			m.addObject("list", list);
+		}
+		else {
+			Uom uomOb = service.getOneUom(uomId);
+			m.addObject("list", Arrays.asList(uomOb));
+		}
+		return m;
+	}
+	
+	@RequestMapping("/pdf")
+	public ModelAndView showPdf(
+			@RequestParam(value = "uid",required = false) Integer uomId
+			) {
+		ModelAndView m = new ModelAndView(new UomPdfView());
+		if(uomId==null) {
+			List<Uom> list = service.getAllUoms();
+			m.addObject("list", list);
+		}else {
+			Uom u = service.getOneUom(uomId);
+			m.addObject("list", Arrays.asList(u));
+		}
+		return m;
+	}
 }

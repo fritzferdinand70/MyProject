@@ -23,6 +23,11 @@ public class Document {
 	@Column(name="fname")
 	private String fileName;
 	
+
+	@Lob // byte[] + @Lob = BLOB
+	@Column(name = "fdata")
+	private byte[] fileData;
+	
 	public Integer getFileId() {
 		return fileId;
 	}
@@ -46,10 +51,6 @@ public class Document {
 	public void setFileData(byte[] fileData) {
 		this.fileData = fileData;
 	}
-
-	@Lob // byte[] + @Lob = BLOB
-	@Column(name = "fdata")
-	private byte[] fileData;
 
 	@Override
 	public String toString() {

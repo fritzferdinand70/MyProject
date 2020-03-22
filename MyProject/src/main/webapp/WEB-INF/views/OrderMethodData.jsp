@@ -9,6 +9,7 @@
 </head>
 <body>
 <h3>Welcome to OrderMethod Data</h3>
+<pre><a href="excel">EXCEL</a>       <a href = "pdf">PDF</a></pre>
 <c:choose>
 <c:when test="${!empty list}">
 <table border="2">
